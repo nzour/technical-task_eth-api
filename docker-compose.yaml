@@ -1,0 +1,17 @@
+version: '3.0'
+
+services:
+  postgres:
+    container_name: ethereum_postgres
+    image: postgres:14
+    environment:
+      POSTGRES_DB: ethereum
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - ethereum_postgres:/var/lib/postgresql/data
+
+volumes:
+  ethereum_postgres:
