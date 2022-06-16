@@ -29,10 +29,10 @@ export class AddressBalanceLog {
 }
 
 class Balance {
-  @Column()
+  @Column({ type: 'float' })
   readonly eth: number;
 
-  @Column()
+  @Column({ type: 'float' })
   readonly usdt: number;
 
   constructor(eth: number, usdt: number) {
