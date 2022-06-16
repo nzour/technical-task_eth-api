@@ -1,7 +1,7 @@
 import { Column, Entity, Index, PrimaryColumn } from 'typeorm';
 import { randomUUID } from 'crypto';
 
-@Entity({ name: 'address_balancee_logs' })
+@Entity({ name: 'address_balance_logs' })
 export class AddressBalanceLog {
   @PrimaryColumn({ type: 'uuid' })
   readonly id: string;
