@@ -1,5 +1,5 @@
 import { EventBus, IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { Balance, EthService } from '../../shared/eth.service';
+import { EthService } from '../../shared/eth.service';
 import { AddressBalanceRequestedEvent } from './events/address-balance-requested.event';
 import { Request } from 'express';
 

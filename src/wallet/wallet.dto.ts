@@ -1,5 +1,5 @@
 import { Wallet } from './entities/wallet.entity';
-import { Balance } from '../shared/eth.service';
+import { EthBalance } from '../shared/eth.service';
 
 export class WalletDto {
   constructor(public readonly id: string, public readonly address: string) {}
@@ -12,6 +12,6 @@ export class WalletDto {
 export class WalletWithBalanceDto {
   constructor(
     public readonly wallet: WalletDto,
-    public readonly balance: Balance,
+    public readonly balance: EthBalance,
   ) {}
 }
