@@ -1,7 +1,7 @@
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { AddressBalanceRequestedEvent } from './address-balance-requested.event';
 import { Repository } from 'typeorm';
-import { AddressBalanceLog } from '../../entities/address-balance.log';
+import { AddressBalanceLog } from '../../entities/address-balance-log.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Logger } from '@nestjs/common';
 
