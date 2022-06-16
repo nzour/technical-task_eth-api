@@ -10,7 +10,6 @@ import { DatabaseModule } from './database.module';
     ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
     CqrsModule,
-    SharedModule,
     WalletModule,
   ],
 })

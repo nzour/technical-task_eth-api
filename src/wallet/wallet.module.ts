@@ -7,11 +7,19 @@ import { CreateWalletHandler as CreateWalletEventHandler } from './cqrs/events/c
 import { GetAddressBalanceHandler } from './cqrs/get-address-balance';
 import { LogAddressBalanceHandler } from './cqrs/events/log-address-balance.handler';
 import { WalletController } from './wallet.controller';
+import { SharedModule } from '../shared/shared.module';
+import { EthService } from '../shared/eth.service';
+import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Wallet, AddressBalanceLog])],
+  imports: [
+    SharedModule,
+    CqrsModule,
+    TypeOrmModule.forFeature([Wallet, AddressBalanceLog]),
+  ],
   controllers: [WalletController],
   providers: [
+    EthService,
     CreateWalletHandler,
     GetAddressBalanceHandler,
     CreateWalletEventHandler,
