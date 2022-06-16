@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Wallet } from './entities/wallet.entity';
 import { AddressBalanceLog } from './entities/address-balance-log.entity';
@@ -19,6 +19,7 @@ import { CqrsModule } from '@nestjs/cqrs';
   ],
   controllers: [WalletController],
   providers: [
+    Logger,
     EthService,
     CreateWalletHandler,
     GetAddressBalanceHandler,
