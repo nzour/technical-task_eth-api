@@ -29,10 +29,10 @@ export class WalletController {
     return this.commandBus.execute(new DeleteWalletCommand(address));
   }
 
-  @Get()
+  @Get('/:address')
   getWallet(
     @Req() request: Request,
-    @Query('address') address: string,
+    @Param('address') address: string,
   ): Promise<AddressWithBalanceDto> {
     return this.queryBus.execute(new GetAddressBalanceQuery(address, request));
   }
