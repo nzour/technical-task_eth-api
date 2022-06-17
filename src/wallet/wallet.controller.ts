@@ -1,11 +1,11 @@
-import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { WalletDto, WalletWithBalanceDto } from './wallet.dto';
+import { AddressWithBalanceDto, WalletDto } from './wallet.dto';
 import { CreateWalletCommand } from './cqrs/create-wallet';
 import { GetAddressBalanceQuery } from './cqrs/get-address-balance';
 import { Request } from 'express';
 
-@Controller({ path: '/wallet' })
+@Controller({ path: '/wallets' })
 export class WalletController {
   constructor(private commandBus: CommandBus, private queryBus: QueryBus) {}
 
@@ -14,11 +14,11 @@ export class WalletController {
     return this.commandBus.execute(command);
   }
 
-  @Get('/{address}')
+  @Get()
   async getWallet(
     @Req() request: Request,
-    @Param('address') address: string,
-  ): Promise<WalletWithBalanceDto> {
+    @Query('address') address: string,
+  ): Promise<AddressWithBalanceDto> {
     return this.queryBus.execute(new GetAddressBalanceQuery(address, request));
   }
 }

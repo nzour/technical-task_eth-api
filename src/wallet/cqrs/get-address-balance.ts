@@ -2,6 +2,7 @@ import { EventBus, IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { EthService } from '../../shared/eth.service';
 import { AddressBalanceRequestedEvent } from './events/address-balance-requested.event';
 import { Request } from 'express';
+import { AddressWithBalanceDto } from '../wallet.dto';
 
 export class GetAddressBalanceQuery {
   constructor(
@@ -25,6 +26,6 @@ export class GetAddressBalanceHandler
       new AddressBalanceRequestedEvent(trimmedAddress, balance, request.ip),
     );
 
-    return balance;
+    return new AddressWithBalanceDto(trimmedAddress, balance);
   }
 }

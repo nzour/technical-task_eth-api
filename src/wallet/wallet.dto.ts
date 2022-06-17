@@ -9,9 +9,9 @@ export class WalletDto {
   }
 }
 
-export class WalletWithBalanceDto {
+export class AddressWithBalanceDto {
   constructor(
-    public readonly wallet: WalletDto,
+    public readonly address: string,
     public readonly balance: EthBalance,
   ) {}
 }
