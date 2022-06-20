@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import Web3 from 'web3';
 import { ConfigService } from '@nestjs/config';
 import { AbiItem } from 'web3-utils';
@@ -47,5 +51,15 @@ export class EthService {
       .catch((err) => {
         throw new BadRequestException(err?.message ?? err);
       });
+  }
+
+  assertValidAddress(address: string): void {
+    if (this.web3.utils.isAddress(address)) {
+      return;
+    }
+
+    throw new UnprocessableEntityException(
+      'Specified account address is invalid',
+    );
   }
 }

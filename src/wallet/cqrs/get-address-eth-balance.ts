@@ -2,6 +2,7 @@ import { EventBus, IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { AddressWithEthBalanceDto } from '../wallet.dto';
 import { EthService } from '../../shared/eth.service';
 import { AddressBalanceRequestedEvent } from './events/address-balance-requested.event';
+import { assertValidAddress } from '../../shared/utils';
 
 export class GetAddressEthBalanceQuery {
   constructor(
@@ -18,6 +19,8 @@ export class GetAddressEthBalanceHandler
 
   async execute({ address, requestIp }: GetAddressEthBalanceQuery) {
     const trimmedAddress = address.trim();
+
+    assertValidAddress(trimmedAddress);
 
     const ethBalance = await this.ethService.getEthBalance(trimmedAddress);
 

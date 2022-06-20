@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Wallet } from '../entities/wallet.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BadRequestException } from '@nestjs/common';
+import { assertValidAddress } from '../../shared/utils';
 
 /**
  * Регистрация в системе уже существующего в Ethereum-сети адреса
@@ -21,9 +22,12 @@ export class CreateWalletHandler
   ) {}
 
   async execute({ address }: CreateWalletCommand): Promise<WalletDto> {
-    await this.assertAddressDoesNotExist(address);
+    const trimmedAddress = address.trim();
 
-    const wallet = new Wallet(address);
+    assertValidAddress(trimmedAddress);
+    await this.assertAddressDoesNotExist(trimmedAddress);
+
+    const wallet = new Wallet(trimmedAddress);
     await this.repository.save(wallet);
 
     return WalletDto.from(wallet);
