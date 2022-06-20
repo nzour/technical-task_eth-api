@@ -22,8 +22,8 @@ export class LogAddressBalanceHandler
     const logEntity = new AddressBalanceLog(
       address,
       requestIp,
-      balance.eth,
-      balance.usdt,
+      balance.ethBalance,
+      balance.tetherBalance,
     );
 
     try {
