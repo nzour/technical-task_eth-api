@@ -10,6 +10,7 @@ import { GetAddressBalanceQuery } from './cqrs/get-address-balance';
 import { DeleteWalletCommand } from './cqrs/delete-wallet';
 import { CreateNewWalletCommand } from './cqrs/create-new-wallet-command';
 import { GetAddressEthBalanceQuery } from './cqrs/get-address-eth-balance';
+import { CreateWalletCommand } from './cqrs/create-wallet';
 
 @Controller({ path: '/wallets' })
 export class WalletController {
@@ -17,7 +18,7 @@ export class WalletController {
 
   @Post('/:address')
   createWallet(@Param('address') address: string): Promise<WalletDto> {
-    return this.commandBus.execute(address);
+    return this.commandBus.execute(new CreateWalletCommand(address));
   }
 
   @Post()
