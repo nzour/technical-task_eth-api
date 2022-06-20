@@ -21,7 +21,7 @@ export class GetAddressBalanceHandler
 
     const [ethBalance, tetherBalance] = await Promise.all([
       await this.ethService.getEthBalance(trimmedAddress),
-      await this.ethService.getUsdtBalance(trimmedAddress, 'fake-token'),
+      await this.ethService.getTetherBalance(trimmedAddress),
     ]);
 
     const balance: EthBalance = { ethBalance, tetherBalance };
