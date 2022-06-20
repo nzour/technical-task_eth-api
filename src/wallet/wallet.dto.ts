@@ -17,3 +17,10 @@ export class AddressWithBalanceDto {
     public readonly balance: EthBalance,
   ) {}
 }
+
+export class AddressWithEthBalanceDto {
+  constructor(
+    public readonly address: string,
+    public readonly ethBalance: number,
+  ) {}
+}

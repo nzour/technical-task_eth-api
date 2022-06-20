@@ -2,12 +2,14 @@ import { Controller, Delete, Get, Ip, Param, Post } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import {
   AddressWithBalanceDto,
+  AddressWithEthBalanceDto,
   WalletDto,
   WalletWithPrivateKey,
 } from './wallet.dto';
 import { GetAddressBalanceQuery } from './cqrs/get-address-balance';
 import { DeleteWalletCommand } from './cqrs/delete-wallet';
 import { CreateNewWalletCommand } from './cqrs/create-new-wallet-command';
+import { GetAddressEthBalanceQuery } from './cqrs/get-address-eth-balance';
 
 @Controller({ path: '/wallets' })
 export class WalletController {
@@ -35,6 +37,16 @@ export class WalletController {
   ): Promise<AddressWithBalanceDto> {
     return this.queryBus.execute(
       new GetAddressBalanceQuery(address, requestIp),
+    );
+  }
+
+  @Get('/eth-balance/:address')
+  getEthBalance(
+    @Ip() requestIp: string,
+    @Param('address') address: string,
+  ): Promise<AddressWithEthBalanceDto> {
+    return this.queryBus.execute(
+      new GetAddressEthBalanceQuery(address, requestIp),
     );
   }
 }
