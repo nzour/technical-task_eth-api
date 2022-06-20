@@ -1,17 +1,26 @@
-import { Body, Controller, Delete, Get, Ip, Param, Post } from '@nestjs/common';
+import { Controller, Delete, Get, Ip, Param, Post } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { AddressWithBalanceDto, WalletDto } from './wallet.dto';
-import { CreateWalletCommand } from './cqrs/create-wallet';
+import {
+  AddressWithBalanceDto,
+  WalletDto,
+  WalletWithPrivateKey,
+} from './wallet.dto';
 import { GetAddressBalanceQuery } from './cqrs/get-address-balance';
 import { DeleteWalletCommand } from './cqrs/delete-wallet';
+import { CreateNewWalletCommand } from './cqrs/create-new-wallet-command';
 
 @Controller({ path: '/wallets' })
 export class WalletController {
   constructor(private commandBus: CommandBus, private queryBus: QueryBus) {}
 
+  @Post('/:address')
+  createWallet(@Param('address') address: string): Promise<WalletDto> {
+    return this.commandBus.execute(address);
+  }
+
   @Post()
-  createWallet(@Body() command: CreateWalletCommand): Promise<WalletDto> {
-    return this.commandBus.execute(command);
+  createNewWallet(): Promise<WalletWithPrivateKey> {
+    return this.commandBus.execute(new CreateNewWalletCommand());
   }
 
   @Delete('/:address')

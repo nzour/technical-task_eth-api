@@ -12,9 +12,11 @@ import { EthService } from '../shared/eth.service';
 import { CqrsModule } from '@nestjs/cqrs';
 import { DeleteWalletHandler } from './cqrs/delete-wallet';
 import { WalletDeletedHandler } from './cqrs/events/wallet-deleted.handler';
+import { CreateNewWalletHandler } from './cqrs/create-new-wallet-command';
 
 const commandAndQueryHandlers = [
   CreateWalletHandler,
+  CreateNewWalletHandler,
   DeleteWalletHandler,
   GetAddressBalanceHandler,
 ];

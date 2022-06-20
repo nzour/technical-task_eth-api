@@ -5,6 +5,9 @@ import { Wallet } from '../entities/wallet.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BadRequestException } from '@nestjs/common';
 
+/**
+ * Регистрация в системе уже существующего в Ethereum-сети адреса
+ */
 export class CreateWalletCommand {
   constructor(public readonly address: string) {}
 }

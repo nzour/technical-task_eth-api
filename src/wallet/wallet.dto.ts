@@ -9,6 +9,8 @@ export class WalletDto {
   }
 }
 
+export type WalletWithPrivateKey = WalletDto & { privateKey: string };
+
 export class AddressWithBalanceDto {
   constructor(
     public readonly address: string,
