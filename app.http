@@ -1,0 +1,29 @@
+# Getting address ETH and USDT balance.
+GET http://localhost:3000/wallets/{address}
+Content-Type: application/json
+
+###
+
+# Getting only ETH address balance
+# Fetching USDT balance require GAS tax, not every account afford it.
+# This is why we may want fetch only ETH balance - it's gas-free operation.
+GET http://localhost:3000/wallets/eth-balance/{address}
+Content-Type: application/json
+
+###
+
+# Creating new account inside Ethereum network and save it into local database.
+POST http://localhost:3000/wallets
+Content-Type: application/json
+
+###
+
+# Saving existing account into local database.
+POST http://localhost:3000/wallets/{address}
+Content-Type: application/json
+
+###
+
+# Removing address from local database.
+DELETE http://localhost:3000/wallets/{address}
+Content-Type: application/json
