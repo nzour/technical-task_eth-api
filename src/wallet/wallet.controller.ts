@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Ip,
   Param,
   Post,
   Query,
@@ -31,9 +32,11 @@ export class WalletController {
 
   @Get('/:address')
   getWallet(
-    @Req() request: Request,
+    @Ip() requestIp: string,
     @Param('address') address: string,
   ): Promise<AddressWithBalanceDto> {
-    return this.queryBus.execute(new GetAddressBalanceQuery(address, request));
+    return this.queryBus.execute(
+      new GetAddressBalanceQuery(address, requestIp),
+    );
   }
 }
