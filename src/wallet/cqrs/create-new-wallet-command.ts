@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { WalletDto, WalletWithPrivateKey } from '../wallet.dto';
 import { Repository } from 'typeorm';
-import { Wallet } from '../entities/wallet.entity';
+import { Wallet } from '../entities/wallet/wallet.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EthService } from '../../shared/eth.service';
 
