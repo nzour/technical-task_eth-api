@@ -1,6 +1,6 @@
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { Repository } from 'typeorm';
-import { Wallet } from '../entities/wallet.entity';
+import { Wallet } from '../entities/wallet/wallet.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { WalletDeletedEvent } from './events/wallet-deleted.event';
 

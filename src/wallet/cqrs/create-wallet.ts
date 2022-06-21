@@ -1,10 +1,12 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { WalletDto } from '../wallet.dto';
 import { Repository } from 'typeorm';
-import { Wallet } from '../entities/wallet.entity';
+import { Wallet } from '../entities/wallet/wallet.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BadRequestException } from '@nestjs/common';
-import { assertValidAddress } from '../../shared/utils';
+import { ExtraWalletValidationData } from '../entities/wallet/types/extraWalletValidationData';
+import { Address } from '../entities/wallet/value_objects/address/address';
+import { isLeft } from 'fp-ts/Either';
 
 /**
  * Регистрация в системе уже существующего в Ethereum-сети адреса
@@ -22,26 +24,49 @@ export class CreateWalletHandler
   ) {}
 
   async execute({ address }: CreateWalletCommand): Promise<WalletDto> {
-    const trimmedAddress = address.trim();
+    address = address.trim();
 
-    assertValidAddress(trimmedAddress);
-    await this.assertAddressDoesNotExist(trimmedAddress);
+    const validationData = await this.getExtraWalletValidationData(address);
 
-    const wallet = new Wallet(trimmedAddress);
+    this.assertCanCreate(address, validationData);
+
+    const wallet = new Wallet(address, validationData);
     await this.repository.save(wallet);
 
     return WalletDto.from(wallet);
   }
 
-  private async assertAddressDoesNotExist(address: string): Promise<void> {
-    const existingCount = await this.repository.count({
-      where: {
-        address: address.trim(),
-      },
-    });
+  private async getExtraWalletValidationData(
+    address: string,
+  ): Promise<ExtraWalletValidationData> {
+    const [existingCount] = await Promise.all([
+      this.repository.count({
+        where: {
+          address: address.trim(),
+        },
+      }),
+    ]);
 
-    if (existingCount) {
-      throw new BadRequestException(`Address ${address} is already in use`);
+    return {
+      extraAddressValidationData: {
+        isSuchAddressAlreadyExist: existingCount > 0,
+      },
+    };
+  }
+
+  private assertCanCreate(
+    address: string,
+    extraWalletValidationData: ExtraWalletValidationData,
+  ): void {
+    const result = Address.canCreate(
+      address,
+      extraWalletValidationData.extraAddressValidationData,
+    );
+
+    if (isLeft(result)) {
+      throw new BadRequestException(
+        `Cannot create wallet: ${JSON.stringify(result.left)}`,
+      );
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Wallet } from './entities/wallet.entity';
+import { Wallet } from './entities/wallet/wallet.entity';
 import { EthBalance } from '../shared/eth.service';
 
 export class WalletDto {
